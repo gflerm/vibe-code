@@ -16,7 +16,7 @@ void showColor(uint32_t color) {
 
 void setup() {
   rgbLed.begin();
-  rgbLed.setBrightness((LED_BRIGHTNESS * 255 + 50) / 100);
+  rgbLed.setBrightness((LED_BRIGHTNESS * 255 + 1) / 100);
   rgbLed.clear();
   rgbLed.show();
 }
