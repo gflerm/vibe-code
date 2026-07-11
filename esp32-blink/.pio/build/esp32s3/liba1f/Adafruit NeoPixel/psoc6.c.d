@@ -1,0 +1,2 @@
+.pio/build/esp32s3/liba1f/Adafruit\ NeoPixel/psoc6.c.o: \
+ .pio/libdeps/esp32s3/Adafruit\ NeoPixel/psoc6.c
