@@ -1,6 +1,6 @@
 # ESP32 Blink with PlatformIO
 
-This PlatformIO project blinks an LED connected to GPIO 2 every 500 ms.
+This PlatformIO project blinks the RGB LED connected to GPIO 48 every 300 ms.
 
 ## Build and upload
 
