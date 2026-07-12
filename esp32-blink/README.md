@@ -1,4 +1,4 @@
-# ESP32 Blink with PlatformIO
+# ESP32 Blink with PlatformIO (Arduino)
 
 This PlatformIO project blinks the RGB LED connected to GPIO 48 every 300 ms.
 
