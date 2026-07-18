@@ -12,6 +12,23 @@ constexpr uint32_t kSolarRefreshMs = 15UL * 60UL * 1000UL;
 constexpr uint32_t kSolarRetryMs = 60UL * 1000UL;
 constexpr uint32_t kButtonHoldMs = 1000;
 
+// Power-saving behaviour. LED brightness is the maximum of the breathing
+// animation, expressed as a percentage of the SK6812's full output.
+constexpr uint32_t kDisplaySleepTimeoutSeconds = 120;
+constexpr uint8_t kPowerSaveLedBrightnessPercent = 5;
+constexpr uint16_t kPowerSaveLedBreathPeriodMs = 8000;
+constexpr uint16_t kPowerSaveLedUpdateMs = 40;
+constexpr uint8_t kDisplayBrightness = 80;
+constexpr uint16_t kPowerSaveCpuFrequencyMhz = 80;
+
+constexpr uint8_t kRgbLedPin = 15;
+constexpr uint8_t kRgbLedCount = 10;
+
+static_assert(kPowerSaveLedBrightnessPercent <= 100,
+              "LED brightness must be between 0 and 100 percent");
+static_assert(kDisplaySleepTimeoutSeconds > 0,
+              "Display sleep timeout must be greater than zero");
+
 constexpr uint16_t kLocalUdpPort = 2390;
 constexpr uint16_t kNtpPort = 123;
 constexpr uint32_t kNtpToUnixEpoch = 2208988800UL;

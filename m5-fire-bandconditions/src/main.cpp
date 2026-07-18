@@ -6,6 +6,7 @@
 #include "AppConfig.h"
 #include "DisplayUi.h"
 #include "NetworkTimeService.h"
+#include "PowerSaveManager.h"
 #include "SolarDataService.h"
 #include "StationLocation.h"
 #include "TimeZoneSettings.h"
@@ -19,6 +20,7 @@ NetworkTimeService networkTime;
 SolarDataService solarService;
 StationLocation station;
 TimeZoneSettings timeZone;
+PowerSaveManager powerSave;
 
 Screen activeScreen = Screen::Dashboard;
 String editedLocator;
@@ -218,6 +220,7 @@ void handleDashboard() {
 void setup() {
   M5.begin();
   Serial.begin(115200);
+  powerSave.begin();
 
   station.begin();
   Serial.printf("Station: %s (%.4f, %.4f)\n", station.locator().c_str(),
@@ -248,6 +251,13 @@ void setup() {
 
 void loop() {
   M5.update();
+
+  const bool anyButtonPressed =
+      M5.BtnA.isPressed() || M5.BtnB.isPressed() || M5.BtnC.isPressed();
+  if (powerSave.update(anyButtonPressed)) {
+    delay(20);
+    return;
+  }
 
   switch (activeScreen) {
     case Screen::LocatorEditor:
