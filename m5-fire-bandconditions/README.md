@@ -31,10 +31,10 @@ memory and restored after reboot; daylight-saving changes are applied
 automatically. The timezone catalogue lives in firmware flash, so no SD card is
 required.
 
-After 60 seconds without button activity, the LCD controller and backlight are
-turned off and the ESP32 CPU is reduced from 240 MHz to 80 MHz to conserve
-battery power. While the display sleeps, the ten built-in SK6812 LEDs breathe
-through a dim rainbow pattern. Pressing any of the three buttons turns the LEDs
+After 120 seconds (two minutes) without button activity, the LCD controller and
+backlight are turned off and the ESP32 CPU is reduced from 240 MHz to 80 MHz to
+conserve battery power. While the display sleeps, the ten built-in SK6812 LEDs
+breathe through a dim rainbow pattern. Pressing any of the three buttons turns the LEDs
 off, restores full CPU speed, and wakes the display. The wake press is consumed
 so it cannot accidentally activate a screen control.
 
