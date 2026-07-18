@@ -2,7 +2,7 @@
 
 A PlatformIO Arduino project that connects an M5Stack Fire to Wi-Fi and displays
 local time together with live HF band conditions from the N0NBH feed. It first
-requests time from `192.168.8.10:123`, then falls back to `pool.ntp.org` servers
+requests time from `xxx.xxx.xxx.xxx:123`, then falls back to `pool.ntp.org` servers
 on UDP port `123`. Band data refreshes every 15 minutes, preserving the last
 successful update if a refresh fails.
 
