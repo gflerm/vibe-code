@@ -15,7 +15,7 @@ constexpr uint32_t kButtonHoldMs = 1000;
 // Power-saving behaviour. LED brightness is the maximum of the breathing
 // animation, expressed as a percentage of the SK6812's full output.
 constexpr uint32_t kDisplaySleepTimeoutSeconds = 120;
-constexpr uint8_t kPowerSaveLedBrightnessPercent = 5;
+constexpr uint8_t kPowerSaveLedBrightnessPercent = 2;
 constexpr uint16_t kPowerSaveLedBreathPeriodMs = 8000;
 constexpr uint16_t kPowerSaveLedUpdateMs = 40;
 constexpr uint8_t kDisplayBrightness = 80;

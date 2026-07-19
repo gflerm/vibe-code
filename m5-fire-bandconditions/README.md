@@ -46,6 +46,11 @@ data connection.
 Wi-Fi credentials are stored in the ignored `include/secrets.h` file. Copy
 `include/secrets.example.h` when setting the project up on another machine.
 
+## Project report
+
+- [Development report with images](report.md)
+- [Printable PDF report](project.pdf)
+
 ## Project structure
 
 - `src/main.cpp` coordinates screens, buttons, startup, and refresh events.
