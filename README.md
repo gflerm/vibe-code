@@ -4,6 +4,11 @@ A collection of embedded development projects and experiments.
 
 ## Projects
 
+### [44Net](44Net/)
+
+An overview of the amateur-radio Internet known as 44Net or AMPRNet, covering
+its history, public IPv4 address space, provisioning models, and modern uses.
+
 ### [MeshCore Cardputer ADV](MeshCore-Cardputer-ADV/)
 
 Enhanced MeshCore mesh-networking firmware and TFT interface for the M5Stack
