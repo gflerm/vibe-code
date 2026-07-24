@@ -10,7 +10,8 @@
 // is responsible only for rendering it consistently.
 class DisplayUi {
  public:
-  void showStatus(const String &title, const String &detail = "");
+  void showStatus(const String &title, const String &detail,
+                  uint8_t progressPercent);
   void renderDashboard(const SolarData &solar,
                        const StationLocation &station,
                        const TimeZoneSettings &timeZone);

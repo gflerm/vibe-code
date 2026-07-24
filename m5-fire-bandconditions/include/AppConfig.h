@@ -11,6 +11,7 @@ constexpr uint32_t kNtpTimeoutMs = 3000;
 constexpr uint32_t kSolarRefreshMs = 15UL * 60UL * 1000UL;
 constexpr uint32_t kSolarRetryMs = 60UL * 1000UL;
 constexpr uint32_t kButtonHoldMs = 1000;
+constexpr uint16_t kInitializationStepDelayMs = 200;
 
 // Power-saving behaviour. LED brightness is the maximum of the breathing
 // animation, expressed as a percentage of the SK6812's full output.

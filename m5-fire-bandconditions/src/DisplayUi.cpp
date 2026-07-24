@@ -19,12 +19,30 @@ uint16_t DisplayUi::conditionColor(const String &condition) {
   return LIGHTGREY;
 }
 
-void DisplayUi::showStatus(const String &title, const String &detail) {
+void DisplayUi::showStatus(const String &title, const String &detail,
+                           uint8_t progressPercent) {
   M5.Lcd.fillScreen(BLACK);
   drawCentered(title, 45, 2, WHITE);
   if (!detail.isEmpty()) {
     drawCentered(detail, 80, 2, CYAN);
   }
+
+  constexpr int kBarX = 30;
+  constexpr int kBarY = 120;
+  constexpr int kBarWidth = 260;
+  constexpr int kBarHeight = 18;
+  constexpr int kBarInset = 3;
+  const uint8_t progress =
+      progressPercent > 100 ? 100 : progressPercent;
+  const int fillWidth =
+      ((kBarWidth - (2 * kBarInset)) * progress) / 100;
+
+  M5.Lcd.drawRect(kBarX, kBarY, kBarWidth, kBarHeight, LIGHTGREY);
+  if (fillWidth > 0) {
+    M5.Lcd.fillRect(kBarX + kBarInset, kBarY + kBarInset, fillWidth,
+                    kBarHeight - (2 * kBarInset), CYAN);
+  }
+  drawCentered(String(progress) + "%", 151, 2, WHITE);
 }
 
 void DisplayUi::updateClock(const TimeZoneSettings &timeZone, bool force) {

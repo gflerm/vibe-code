@@ -37,6 +37,12 @@ bool editorReadyForInput = false;
 uint32_t lastDaylightCheckSecond = UINT32_MAX;
 bool lastDaylightState = false;
 
+void showInitializationStep(const String &title, const String &detail,
+                            uint8_t progressPercent) {
+  display.showStatus(title, detail, progressPercent);
+  delay(AppConfig::kInitializationStepDelayMs);
+}
+
 void showDashboard() {
   activeScreen = Screen::Dashboard;
   lastDaylightState = station.isDaylight(time(nullptr));
@@ -222,6 +228,8 @@ void setup() {
   Serial.begin(115200);
   powerSave.begin();
 
+  showInitializationStep("Starting", "Loading settings", 5);
+
   station.begin();
   Serial.printf("Station: %s (%.4f, %.4f)\n", station.locator().c_str(),
                 station.latitude(), station.longitude());
@@ -229,23 +237,27 @@ void setup() {
   timeZone.begin();
   Serial.printf("Time zone: %s\n", timeZone.selectedZoneName().c_str());
 
-  display.showStatus("Connecting to WiFi", WIFI_SSID);
+  showInitializationStep("Connecting to WiFi", WIFI_SSID, 20);
   if (!networkTime.connectWifi(WIFI_SSID, WIFI_PASSWORD)) {
-    display.showStatus("WiFi failed", "Restart to retry");
+    display.showStatus("WiFi failed", "Restart to retry", 20);
     return;
   }
 
-  display.showStatus("WiFi connected", WiFi.localIP().toString());
-  delay(1000);  // Give DHCP and the gateway a moment to settle.
+  showInitializationStep("WiFi connected", WiFi.localIP().toString(), 45);
 
-  display.showStatus("Syncing time", "192.168.8.10:123");
+  showInitializationStep("Syncing time", "NTP", 60);
   if (!networkTime.synchronizeClock()) {
-    display.showStatus("Time sync failed", "No NTP response");
+    display.showStatus("Time sync failed", "No NTP response", 60);
     return;
   }
 
-  display.showStatus("Loading band data", "N0NBH");
-  solarService.fetch();
+  showInitializationStep("Time synced", timeZone.selectedZoneName(), 75);
+  showInitializationStep("Loading band data", "N0NBH", 85);
+  const bool bandDataLoaded = solarService.fetch();
+  showInitializationStep(
+      bandDataLoaded ? "Initialization complete" : "Band data unavailable",
+      bandDataLoaded ? "Band conditions ready" : "Will retry automatically",
+      100);
   showDashboard();
 }
 
