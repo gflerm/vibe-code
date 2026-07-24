@@ -6,6 +6,12 @@ requests time from `xxx.xxx.xxx.xxx:123`, then falls back to `pool.ntp.org` serv
 on UDP port `123`. Band data refreshes every 15 minutes, preserving the last
 successful update if a refresh fails.
 
+During startup, the display shows initialization progress while settings load,
+Wi-Fi connects, time synchronizes, and band data is fetched. Each milestone is
+held for 200 ms so quick transitions remain visible, including an explicit
+`Time synced` confirmation. The initialization step delay is configurable with
+`kInitializationStepDelayMs` in `AppConfig.h`.
+
 The default station location is Maidenhead locator `JF95eu` (approximately
 latitude -34.1458, longitude 18.3750), and the active locator is shown in the
 display footer.
