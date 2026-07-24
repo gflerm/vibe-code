@@ -25,6 +25,16 @@ bool PowerSaveManager::update(bool anyButtonPressed) {
 
   if (powerSaving_) {
     if (anyButtonPressed) {
+      if (AppConfig::kRebootOnPowerSaveWake) {
+        // Leave the external LEDs in a known state across the software reset.
+        // Serial.flush() makes the reason visible when a monitor is attached.
+        turnLedsOff();
+        Serial.println("Power save ended: restarting");
+        Serial.flush();
+        delay(20);
+        ESP.restart();
+        return true;
+      }
       leavePowerSave();
       waitForWakeButtonRelease_ = true;
     } else {

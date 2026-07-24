@@ -20,6 +20,9 @@ constexpr uint16_t kPowerSaveLedBreathPeriodMs = 8000;
 constexpr uint16_t kPowerSaveLedUpdateMs = 40;
 constexpr uint8_t kDisplayBrightness = 80;
 constexpr uint16_t kPowerSaveCpuFrequencyMhz = 80;
+// Rebooting on wake avoids relying on the LCD, Wi-Fi, and CPU-frequency state
+// surviving a prolonged power-save period. Set to false to wake in place.
+constexpr bool kRebootOnPowerSaveWake = true;
 
 constexpr uint8_t kRgbLedPin = 15;
 constexpr uint8_t kRgbLedCount = 10;

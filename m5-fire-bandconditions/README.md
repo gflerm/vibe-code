@@ -35,11 +35,14 @@ After 120 seconds (two minutes) without button activity, the LCD controller and
 backlight are turned off and the ESP32 CPU is reduced from 240 MHz to 80 MHz to
 conserve battery power. While the display sleeps, the ten built-in SK6812 LEDs
 breathe through a dim rainbow pattern. Pressing any of the three buttons turns the LEDs
-off, restores full CPU speed, and wakes the display. The wake press is consumed
-so it cannot accidentally activate a screen control.
+off and, by default, reboots the ESP32 so that the LCD, Wi-Fi, and CPU all
+restart from a known state after a prolonged power-save period.
 
 The inactivity timeout, maximum LED brightness percentage, animation timing,
-LCD brightness, and reduced CPU frequency are configurable in `AppConfig.h`.
+LCD brightness, reduced CPU frequency, and reboot-on-wake behaviour are
+configurable in `AppConfig.h`. Set `kRebootOnPowerSaveWake` to `false` to
+restore the previous wake-in-place behaviour; in that mode, the wake press is
+consumed so it cannot accidentally activate a screen control.
 GPIO15 is kept in open-drain mode as recommended for the M5Stack Fire RGB LED
 data connection.
 
