@@ -293,17 +293,25 @@ frequency, wakes the LCD, and restores its brightness. The wake press is
 consumed until all buttons are released so it cannot accidentally open a menu
 or alter a setting.
 
+If no button is pressed for a further 60 seconds while in power save, the
+device performs a total shutdown. Wi-Fi is disconnected, the LCD wakes to show
+a "SHUTTING DOWN" message for ten seconds, and the ESP32 then enters deep
+sleep. The physical power button (hardware reset) is the only way to restart
+it, giving the longest possible battery life when the device is left idle.
+
 At the time of this report, the current local configuration is:
 
 - Display sleep timeout: 120 seconds
+- Total-shutdown delay after power save: 60 seconds
+- Shutdown message duration: 10 seconds
 - Maximum sleep-animation LED brightness: 2%
 - Breathing cycle: 8 seconds
 - LED update interval: 40 ms
 - LCD wake brightness: 80/255
 - Power-save CPU frequency: 80 MHz
 
-The 2% LED brightness is a current uncommitted local tuning change; this report
-does not alter or commit it.
+The 2% LED brightness is a current local tuning change; this report does not
+alter or commit it.
 
 ## 9. Reliability and safety measures
 
@@ -316,6 +324,12 @@ The finished firmware includes several defensive behaviours:
 - Locator and timezone settings survive reboot in NVS.
 - Hold and release gates prevent button actions from leaking between screens.
 - Wake-button input is consumed before normal controls resume.
+- The device fully shuts down (deep sleep) after a prolonged idle power-save
+  period, disconnected from Wi-Fi, so it does not drain the battery
+  indefinitely.
+- PSRAM initialization and automatic SD-card mounting are disabled because the
+  application needs neither; this avoids startup errors on units with
+  unreliable PSRAM or without a readable card.
 - Configuration assertions reject invalid LED brightness percentages or a zero
   sleep timeout at compile time.
 - Wi-Fi credentials remain in an ignored private header.

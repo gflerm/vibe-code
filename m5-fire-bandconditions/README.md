@@ -44,13 +44,25 @@ breathe through a dim rainbow pattern. Pressing any of the three buttons turns t
 off and, by default, reboots the ESP32 so that the LCD, Wi-Fi, and CPU all
 restart from a known state after a prolonged power-save period.
 
-The inactivity timeout, maximum LED brightness percentage, animation timing,
-LCD brightness, reduced CPU frequency, and reboot-on-wake behaviour are
-configurable in `AppConfig.h`. Set `kRebootOnPowerSaveWake` to `false` to
-restore the previous wake-in-place behaviour; in that mode, the wake press is
-consumed so it cannot accidentally activate a screen control.
+If no button is pressed for a further 60 seconds while in power save, the
+device performs a total shutdown: Wi-Fi is disconnected, a "SHUTTING DOWN"
+message is shown for ten seconds, and the ESP32 enters deep sleep. The physical
+power button (hardware reset) is the only way to restart it.
+
+The inactivity timeout, total-shutdown delay, maximum LED brightness
+percentage, animation timing, LCD brightness, reduced CPU frequency, and
+reboot-on-wake behaviour are configurable in `AppConfig.h`. Set
+`kRebootOnPowerSaveWake` to `false` to restore the previous wake-in-place
+behaviour; in that mode, the wake press is consumed so it cannot accidentally
+activate a screen control.
 GPIO15 is kept in open-drain mode as recommended for the M5Stack Fire RGB LED
 data connection.
+
+The firmware uses internal SRAM only and disables automatic PSRAM
+initialization because it does not need external RAM. Automatic SD-card
+mounting is also disabled because the application does not use the card slot.
+These settings avoid startup errors on units with unreliable PSRAM or without
+a readable SD card.
 
 Wi-Fi credentials are stored in the ignored `include/secrets.h` file. Copy
 `include/secrets.example.h` when setting the project up on another machine.
