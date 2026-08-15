@@ -13,6 +13,11 @@ class PowerSaveManager {
   void begin();
   bool update(bool anyButtonPressed);
   bool isPowerSaving() const { return powerSaving_; }
+  bool isShutdownDue() const { return shutdownDue_; }
+  // Wakes the LCD so the shutdown message can be shown, then shuts the device
+  // down (deep sleep). shutdownNow() never returns.
+  void prepareShutdown();
+  void shutdownNow();
 
  private:
   void enterPowerSave();
@@ -27,5 +32,6 @@ class PowerSaveManager {
   uint32_t lastLedUpdateMs_ = 0;
   uint32_t normalCpuFrequencyMhz_ = 240;
   bool powerSaving_ = false;
+  bool shutdownDue_ = false;
   bool waitForWakeButtonRelease_ = false;
 };

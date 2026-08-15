@@ -1,7 +1,9 @@
 #include "PowerSaveManager.h"
 
 #include <M5Stack.h>
+#include <WiFi.h>
 #include <esp32-hal-cpu.h>
+#include <esp_sleep.h>
 
 #include "AppConfig.h"
 
@@ -38,6 +40,11 @@ bool PowerSaveManager::update(bool anyButtonPressed) {
       leavePowerSave();
       waitForWakeButtonRelease_ = true;
     } else {
+      if (!shutdownDue_ &&
+          static_cast<uint32_t>(now - powerSaveStartedMs_) >=
+              AppConfig::kTotalShutdownDelaySeconds * 1000UL) {
+        shutdownDue_ = true;
+      }
       updateLedAnimation(now);
     }
     return true;
@@ -96,6 +103,38 @@ void PowerSaveManager::leavePowerSave() {
   powerSaving_ = false;
   lastActivityMs_ = millis();
   Serial.printf("Power save ended: CPU %u MHz\n", getCpuFrequencyMhz());
+}
+
+void PowerSaveManager::prepareShutdown() {
+  turnLedsOff();
+  if (WiFi.status() == WL_CONNECTED) {
+    WiFi.disconnect(true);
+    WiFi.mode(WIFI_OFF);
+  }
+
+  // Wake the LCD so the shutdown message stays readable before deep sleep.
+  M5.Lcd.wakeup();
+  delay(120);  // The ILI9342 needs time to leave sleep mode.
+  M5.Lcd.setBrightness(AppConfig::kDisplayBrightness);
+  Serial.println("Shutting down");
+}
+
+void PowerSaveManager::shutdownNow() {
+  // Let the hand clear the buttons so a release doesn't look like a fresh
+  // press on the next boot. The physical power button (hardware reset) is the
+  // only thing that wakes the device from deep sleep.
+  const uint32_t waitStart = millis();
+  while ((digitalRead(BUTTON_A_PIN) == LOW ||
+          digitalRead(BUTTON_B_PIN) == LOW ||
+          digitalRead(BUTTON_C_PIN) == LOW) &&
+         static_cast<int32_t>(millis() - waitStart) < 2000) {
+    delay(10);
+  }
+
+  M5.Lcd.setBrightness(0);
+  M5.Lcd.sleep();
+  Serial.flush();
+  esp_deep_sleep_start();
 }
 
 void PowerSaveManager::updateLedAnimation(uint32_t now) {

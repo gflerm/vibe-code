@@ -191,3 +191,10 @@ void DisplayUi::renderTimeZoneEditor(const String &zoneName,
 void DisplayUi::showSaveFailed() {
   drawCentered("SAVE FAILED", 181, 2, RED);
 }
+
+void DisplayUi::showShutdownMessage() {
+  M5.Lcd.fillScreen(BLACK);
+  drawCentered("SHUTTING DOWN", 45, 3, RED);
+  drawCentered("BAND CLOCK IS OFF", 90, 2, WHITE);
+  drawCentered("Press the power button to restart", 150, 2, CYAN);
+}

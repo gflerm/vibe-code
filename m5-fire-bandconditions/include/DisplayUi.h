@@ -21,6 +21,7 @@ class DisplayUi {
                             uint16_t count);
   void showInvalidLocator();
   void showSaveFailed();
+  void showShutdownMessage();
   void updateClock(const TimeZoneSettings &timeZone, bool force = false);
 
  private:

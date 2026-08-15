@@ -224,7 +224,9 @@ void handleDashboard() {
 }  // namespace
 
 void setup() {
-  M5.begin();
+  // The application does not use the SD card. Disabling its automatic mount
+  // avoids a low-level error when no usable card is inserted.
+  M5.begin(true, false, true, false);
   Serial.begin(115200);
   powerSave.begin();
 
@@ -267,6 +269,12 @@ void loop() {
   const bool anyButtonPressed =
       M5.BtnA.isPressed() || M5.BtnB.isPressed() || M5.BtnC.isPressed();
   if (powerSave.update(anyButtonPressed)) {
+    if (powerSave.isShutdownDue()) {
+      powerSave.prepareShutdown();
+      display.showShutdownMessage();
+      delay(AppConfig::kShutdownMessageDurationMs);
+      powerSave.shutdownNow();
+    }
     delay(20);
     return;
   }

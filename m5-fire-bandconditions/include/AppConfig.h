@@ -16,6 +16,11 @@ constexpr uint16_t kInitializationStepDelayMs = 200;
 // Power-saving behaviour. LED brightness is the maximum of the breathing
 // animation, expressed as a percentage of the SK6812's full output.
 constexpr uint32_t kDisplaySleepTimeoutSeconds = 120;
+// After this long in power save the device performs a total shutdown (deep
+// sleep). The physical power button resets the chip and boots it again.
+constexpr uint16_t kTotalShutdownDelaySeconds = 60;
+// How long the "Shutting down..." message stays visible before deep sleep.
+constexpr uint32_t kShutdownMessageDurationMs = 10000;
 constexpr uint8_t kPowerSaveLedBrightnessPercent = 2;
 constexpr uint16_t kPowerSaveLedBreathPeriodMs = 8000;
 constexpr uint16_t kPowerSaveLedUpdateMs = 40;
